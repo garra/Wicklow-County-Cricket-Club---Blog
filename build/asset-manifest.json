@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.c8c95f9f.chunk.css",
+    "main.js": "/static/js/main.0883dba5.chunk.js",
+    "main.js.map": "/static/js/main.0883dba5.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.4fc60b47.js",
+    "runtime-main.js.map": "/static/js/runtime-main.4fc60b47.js.map",
+    "static/css/2.de424728.chunk.css": "/static/css/2.de424728.chunk.css",
+    "static/js/2.60b28713.chunk.js": "/static/js/2.60b28713.chunk.js",
+    "static/js/2.60b28713.chunk.js.map": "/static/js/2.60b28713.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.b10e2f279042003ad5143fd39c5fbd95.js": "/precache-manifest.b10e2f279042003ad5143fd39c5fbd95.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.de424728.chunk.css.map": "/static/css/2.de424728.chunk.css.map",
+    "static/css/main.c8c95f9f.chunk.css.map": "/static/css/main.c8c95f9f.chunk.css.map",
+    "static/js/2.60b28713.chunk.js.LICENSE.txt": "/static/js/2.60b28713.chunk.js.LICENSE.txt",
+    "static/media/app.css": "/static/media/cricket.72f53fc2.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4fc60b47.js",
+    "static/css/2.de424728.chunk.css",
+    "static/js/2.60b28713.chunk.js",
+    "static/css/main.c8c95f9f.chunk.css",
+    "static/js/main.0883dba5.chunk.js"
+  ]
+}
