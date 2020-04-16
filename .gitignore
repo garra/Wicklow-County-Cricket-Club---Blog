@@ -1,6 +1,6 @@
 # Certificates
-backend/cert.pem
-backend/key.pem
+# backend/cert.pem
+# backend/key.pem
 
 # Firebase details
 # src/firebase-config.js
