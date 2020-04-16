@@ -10,6 +10,7 @@ const Image       = require ('./routes/Image')
 const RateLimit   = require('express-rate-limit');
 const https       = require('https');
 const fs          = require('fs');
+const path        = require ('path');
 const log4js      = require('log4js');
 
 log4js.configure({
@@ -30,7 +31,7 @@ app.use (
   })
 ) 
 
-/* only if you're behind a reverse proxy such as Heroku  */
+/* only if you're behind a reverse proxy (Heroku, Bluemix, AWS if you use an ELB, custom Nginx setup, etc)  */
 app.enable('trust proxy'); 
 
 var limiter = new RateLimit({
@@ -60,9 +61,12 @@ app.use (helmet.xssFilter ()) //  X-XSS-Protection header to prevent reflected X
 app.use (helmet.frameguard ({ action: 'deny' }))  // Don't allow to be in ANY frames
 app.use(helmet.hidePoweredBy()); // Hides X-Prowered by from header
 
+app.use(express.static(path.resolve(__dirname, '../client/build')));
+
 // Routes
 app.use ('/users', Users)
 app.use ('/blogs', Image)
+app.get('*', (req, res) => {    res.sendFile(path.resolve(__dirname = '../client/build/index.html'));  })
 
 const options = {
   key: fs.readFileSync('key.pem'),

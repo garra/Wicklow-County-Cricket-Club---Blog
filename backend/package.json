@@ -3,9 +3,11 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "client": "cd client && yarn start",
+        "client-install": "npm install --prefix client",
+        "start": "node index.js", 
+        "client": "npm start --prefix client",    
         "server": "nodemon server.js",
-        "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+        "dev": "concurrently \"npm run server\" \"npm run client\""
     },
     "dependencies": {
         "bcrypt": "^4.0.1",
