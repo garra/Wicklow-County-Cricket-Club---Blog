@@ -1,6 +1,5 @@
 require ('./config')
 
-const path        = require ('path')
 const express     = require ('express')
 const helmet      = require ('helmet');
 const cors        = require ('cors')
@@ -11,6 +10,14 @@ const Image       = require ('./routes/Image')
 const RateLimit   = require('express-rate-limit');
 const https       = require('https');
 const fs          = require('fs');
+const log4js      = require('log4js');
+
+log4js.configure({
+  appenders: { 'file': { type: 'file', filename: 'logs/loggers.log' , maxLogSize: 10485760, backups: 3, compress: true } },
+  categories: { default: { appenders: ['file'], level: 'debug' } },
+});
+
+const logger = log4js.getLogger('loggers');
 
 const app         = express ()
 const port        = process.env.PORT || 5000
@@ -23,7 +30,7 @@ app.use (
   })
 ) 
 
-/* only if you're behind a reverse proxy (Heroku, Bluemix, AWS if you use an ELB, custom Nginx setup, etc)  */
+/* only if you're behind a reverse proxy such as Heroku  */
 app.enable('trust proxy'); 
 
 var limiter = new RateLimit({
@@ -69,11 +76,11 @@ mongoose
       useNewUrlParser: true
     }
   )
-  .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log(err))
+  .then(() => logger.info ('MongoDB Connected'))
+  .catch(err => logger.error (err))
 
   https.createServer(options, app).listen(port, () => {
-    console.log('Listening...')
+    logger.info ('Server listening at port: '+port)
   })
 
  

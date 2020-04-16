@@ -1,0 +1,31 @@
+.contact-container {
+    margin: 10% auto !important;
+}
+
+.contact-card {
+    padding: 4%;
+    text-align: center;
+}
+
+.contact-details {
+    font-size: 30px;
+    margin-bottom: 4%;
+    font-family: inherit;
+}
+
+.detail-key .detail-value {
+    font-family: inherit;
+    font-size: 20px;
+}
+
+.detail-key {
+    margin-bottom: 2% !important;
+}
+
+.card {
+    border: 8px solid rgba(160, 147, 147, 0.34);
+}
+
+.card-body {
+    background: #eef1f5b8;
+}

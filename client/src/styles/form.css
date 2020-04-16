@@ -1,0 +1,71 @@
+.form-container {
+    margin: 4% auto !important;
+}
+.form-item {
+    background: rgba(200, 200, 200, 0.4);
+    padding-bottom: 40px;
+    margin: 5% auto !important;
+    border-radius: 1.5em;
+    box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+}
+
+.form {
+    text-align: center;
+    padding: 30px;
+    color: rgba(77, 22, 22, 0.8);
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.form-form-item {
+    margin: auto !important;
+}
+
+.form-form {
+  
+    margin: 0 auto;
+    text-align: center;
+}
+
+.form-credential {
+    width: 100%;
+    color: rgb(38, 50, 56);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 10px 20px;
+    border-radius: 20px;
+    outline: none;
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.form-credential:focus {
+    border: 2px solid rgba(0, 0, 0, 0) !important;
+}
+
+.form-button {
+    padding: 4%;
+    font-weight: 700 !important;
+    font-size: 20px !important;
+    border-radius: 5em !important;
+    color: #fff !important;
+    background: linear-gradient(to right, rgba(77, 22, 22, 0.8), rgba(228, 16, 16, 0.2)) !important;
+    border: 0 !important;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04) !important;
+    text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12) !important;
+}
+
+.form-control {
+    resize: none;
+}
+ .form-character {
+     font-size: 20px;
+ }
+.form-label {
+    font-size: 20px;
+    font-weight: 600;
+}

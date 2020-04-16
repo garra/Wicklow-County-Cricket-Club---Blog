@@ -1,0 +1,12 @@
+.feed-item {
+    margin: 0 auto !important;
+}
+
+.feed-card {
+    margin: 10% 0;
+    max-width: 800px;
+}
+
+.feed-container {
+    background-color: #eef7ffde;
+}

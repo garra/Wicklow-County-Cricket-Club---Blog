@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import axios from 'axios';
-import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Grid, Table, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core';
 
@@ -38,6 +37,7 @@ class Edit extends Component {
         this.setState({ anchorEl: null })
     }
     handleRemove(id) {
+        if(window.confirm("Are you sure you want to delete this blog?")){
         this.setState({ loader: true })
         axios.delete('blogs/delete/' + id)
             .then(res => {
@@ -51,6 +51,7 @@ class Edit extends Component {
                     loader: false
                 })
             })
+        }
     }
     handleEdit(r) {
         this.setState({
@@ -74,9 +75,8 @@ class Edit extends Component {
         })
             .then(response => {
                 if (response.data.role === 'admin') {
-                    axios.get('blogs/getall/')
+                    axios.get('blogs/get/')
                     .then(res => {
-                        console.log (res)
                         this.setState({ loader: false, data: res.data })
                     })
                     .catch(err => {
@@ -85,7 +85,7 @@ class Edit extends Component {
                             loader: false,
                             open: true,
                             severity: 'error',
-                            message: 'Sorry, An error occured. Please try to reload'
+                            message: 'Sorry, An error occured. Kindly try to reload'
                         })
                     }) 
                 }

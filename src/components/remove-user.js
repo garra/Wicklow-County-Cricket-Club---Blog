@@ -83,7 +83,7 @@ class Edit extends Component {
                             loader: false,
                             open: true,
                             severity: 'error',
-                            message: 'Sorry, An error occured. Kindly try to reload'
+                            message: 'Sorry, An error occured. Please try to reload'
                         })
                     }) 
                 }

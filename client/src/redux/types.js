@@ -1,0 +1,1 @@
+export const AUTH_USER_DETAILS   = "AUTH_USER_DETAILS";

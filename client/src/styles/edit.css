@@ -1,0 +1,76 @@
+.edit-table {
+    margin: auto !important;
+    margin-top: 5% !important;
+    max-width: 1200px !important;
+}
+
+.icon-cell {
+   text-align: center !important;
+    border-radius: 20%;
+}
+
+.title-cell {
+    font-family: inherit !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+    color:  white !important;
+}
+
+.report-cell {
+    font-family: inherit !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color:  white !important;
+}
+
+.icon-div {
+    position: relative;
+    background: #fbfdffd6;
+    padding: 20%;
+    border-radius: 50%;
+    text-align: center;
+    max-width: 30px;
+    max-height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+}
+
+.icon {
+    position: absolute;
+   transform: translate(-10px, -10px);
+}
+
+.table-container {
+    background: #0d0e19e0;
+    padding: 5%;
+    border-radius: 5%;
+}
+
+.edit-your-blog {
+    text-align: center;
+    margin-bottom: 2%;
+    font-size: 30px;
+    font-weight: 600;
+    color: black;
+}
+
+.heading {
+    font-family: inherit !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    color:  white !important;
+}
+
+.icon-del {
+    position: absolute;
+    transform: translate(-10px, -10px);
+    top: 50%;
+
+}
+@media only screen and (max-width: 600px) {
+    .icon {
+        transform: translate(-11px, 0px);
+    }
+  }
+  

@@ -38,7 +38,8 @@ class Edit extends Component {
         this.setState({ anchorEl: null })
     }
     handleRemove(id) {
-        this.setState({ loader: true })
+        if(window.confirm("Are you sure you want to delete this blog?")){
+            this.setState({ loader: true })
         axios.delete('blogs/delete/' + id)
             .then(res => {
                 window.location.reload(false)
@@ -51,6 +52,10 @@ class Edit extends Component {
                     loader: false
                 })
             })
+         }
+        else {
+            this.setState ({row: null});
+        }
     }
     handleEdit(r) {
         this.setState({
@@ -65,7 +70,7 @@ class Edit extends Component {
         this.setState({ open: false })
     }
     onClose(e) {
-        this.setState({ modal: false })
+        this.setState({ modal: false, row: null })
     }
     componentDidMount() {
         this.setState({ loader: true })
@@ -73,10 +78,8 @@ class Edit extends Component {
             headers: { Authorization: ` ${localStorage.usertoken}` }
         })
             .then(response => {
-                if (response.data.role === 'admin') {
-                    axios.get('blogs/getall/')
+                axios.get('blogs/getid/' + response.data._id)
                     .then(res => {
-                        console.log (res)
                         this.setState({ loader: false, data: res.data })
                     })
                     .catch(err => {
@@ -85,18 +88,9 @@ class Edit extends Component {
                             loader: false,
                             open: true,
                             severity: 'error',
-                            message: 'Sorry, An error occured. Please try to reload'
+                            message: 'Sorry, An error occured. Kindly try to reload'
                         })
-                    }) 
-                }
-                else {
-                    this.setState({
-                        loader: false,
-                        open: true,
-                        severity: 'error',
-                        message: 'Unauthorized Access'
                     })
-                }
             })
             .catch(err => {
                 console.log(err)
@@ -135,11 +129,16 @@ class Edit extends Component {
                                                 <TableCell className="title-cell">{row.title}</TableCell>
                                                 <TableCell className="report-cell">{row.report}</TableCell>
                                                 <TableCell className="icon-cell">
-                                                    <div className="icon-div">
-                                                        <DeleteIcon onClick={() => { this.handleRemove(row._id) }} className="icon-del" />
+                                                    <div className="icon-div" onClick={() => { this.handleRemove(row._id) }} >
+                                                        <DeleteIcon className="icon" />
                                                     </div>
                                                 </TableCell>
-                                              </TableRow>
+                                                <TableCell className="icon-cell">
+                                                    <div className="icon-div" onClick={() => { this.handleEdit(row) }}>
+                                                        <EditIcon  className="icon" />
+                                                    </div>
+                                                </TableCell>
+                                            </TableRow>
                                         )
                                     }
                                 </TableBody>

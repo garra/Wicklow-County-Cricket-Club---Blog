@@ -1,11 +1,19 @@
 require('../config')
 
-const User   = require('../model/User')
-const jwt    = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
-var sanitize = require('mongo-sanitize');
+const User        = require('../model/User')
+const jwt         = require('jsonwebtoken')
+const bcrypt      = require('bcrypt')
+const sanitize    = require('mongo-sanitize');
+const log4js      = require('log4js');
 
 const { check, validationResult } = require('express-validator');
+
+log4js.configure({
+    appenders:  { 'file': { type: 'file', filename: 'logs/loggers.log' , maxLogSize: 10485760, backups: 3, compress: true } },
+    categories: { default: { appenders: ['file'], level: 'debug' } }
+  });
+  
+const logger = log4js.getLogger('loggers');
 
 exports.createValidationFor = (value) => {
     switch (value) {
@@ -24,11 +32,11 @@ exports.createValidationFor = (value) => {
                     }).withMessage('Mobile number should start with 0'),
                   
                     check('password').exists()
-                    .withMessage('Password should not be empty, minimum eight characters, at least one letter, one number and one special character')
+                    .withMessage('Password should not be empty')
                     .isLength({ min: 8 })
-                    .withMessage('Password should not be empty, minimum eight characters, at least one letter, one number and one special character')
+                    .withMessage('Password should minimum eight characters')
                     .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/)
-                    .withMessage('Password should not be empty, minimum eight characters, at least one letter, one number and one special character')
+                    .withMessage('Password should be at least one capital and one small letter, one number and one special character')
                 
                 ]
         default:
@@ -38,6 +46,7 @@ exports.createValidationFor = (value) => {
 
 exports.checkValidationResult = (req, res, next) => {
     const result = validationResult(req);
+    logger.info ('==Register Validation==',result);
     if (result.isEmpty()) {
         return next();
     }
@@ -69,24 +78,24 @@ exports.createUser = (req, res, next) => {
                     if (!user ) {
                         bcrypt.genSalt (Number (process.env.ROUNDS), function (err, salt) {
                             if (err) {
-                                console.log (err)
+                                logger.error (err)
                                 res.send ('error: '+err)
                             }
                             else {
                             bcrypt.hash (userData.password, salt, function (err, hash) {
                                 if (err) {
-                                    console.log (err)
+                                    logger.error (err)
                                     res.send ('error: '+err)
                                 }
                                 else {
                                     userData.password = hash
-                                    console.log (hash +"    "+userData.password)
                                     User.create(userData)
                                         .then(user => {
-                                            console.log (user)
+                                            logger.log (user)
                                             res.json({ status: 'ok' })
                                         })
                                         .catch(err => {
+                                            logger.error (err)
                                             res.send('error: ' + err)
                                         })
                                 }
@@ -95,22 +104,25 @@ exports.createUser = (req, res, next) => {
                          
                     } 
                     else {
+                        logger.info ('Email ID already registered')
                         res.json({ error: 'Username or email is already registered!!' })
                     }
                 })
                 .catch(err => {
+                    logger.error (err)
                     res.send('error: ' + err)
                 })
          }
          else {
-             console.log ('nn')
+             logger.info ('Username already registered')
             res.json({ error: 'Username is already taken!!' })
          }
      })
      .catch (err => {
+         logger.error (err)
         res.send('error: ' + err)
      })
-   
+
 }
 
 
@@ -133,45 +145,61 @@ exports.verifyUser = (req, res, next) => {
                     let token = jwt.sign(payload, process.env.SECRET_KEY, {
                         expiresIn : 86400
                     })
+                    logger.info ('==userToken fetched==')
                     res.send(token)
                 } else {
                     // Passwords don't match
+                    logger.info ('Passwords did not match')
                     res.json({ error: 'Please enter valid credentials for Wicklow CCC Blog' })
                 }
             } else {
+                logger.info ('Username not registered')
                 res.json({ error: 'Please enter valid credentials for Wicklow CCC Blog' })
             }
         })
         .catch(err => {
+            logger.error (err)
             res.send('error: ' + err)
         })
 }
 
 exports.getUserProfile = (req, res, next) => {
-    var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
-
-    User.findOne({
-        _id: decoded._id
-    })
-        .then(user => {
-            if (user) {
-                res.json(user)
-            } else {
-                res.send('User does not exist')
+    var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY, function (err, decoded) {
+        if ( err ) {
+            logger.error (err)
+            res.send (err)
             }
-        })
-        .catch(err => {
-            res.send('error: ' + err)
-        })
+            else {
+                User.findOne({
+                    _id: decoded._id
+                })
+                    .then(user => {
+                        if (user) {
+                            logger.info ('====User Profile fetched====' )
+                            res.json(user)
+                        } else {
+                            logger.info ('User ID not present')
+                            res.send('User does not exist')
+                        }
+                    })
+                    .catch(err => {
+                        logger.error (err)
+                        res.send('error: ' + err)
+                    })
+            }
+    })
+
 }
 
 exports.getAllUsers = (req, res, next) => {
     
     User.find({})
-        .then(user => {   
+        .then(user => {
+            logger.info ('All users data fetched')
                 res.json(user)
         })
         .catch(err => {
+            logger.error (err)
             res.send('error: ' + err)
         })
 }
@@ -181,9 +209,11 @@ exports.removeUser = (req, response, next) => {
     
     User.findByIdAndRemove(req.params.id)
     .then (res => {
+        logger.info ('User Removed with id, ', req.params.id)
         response.status(200).send (res)
     })
     .catch (err => {
+        logger.log (err)
         response.status(400).send('error '+err);
     })
 }

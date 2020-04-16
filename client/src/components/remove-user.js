@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import axios from 'axios';
-import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Grid, Table, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core';
+import { Grid, Table, TableBody, TableCell, TableContainer, TableRow, TableHead } from '@material-ui/core';
 
 import Snackbar from './snackbar';
 import Loader from './loader';
@@ -38,8 +37,10 @@ class Edit extends Component {
         this.setState({ anchorEl: null })
     }
     handleRemove(id) {
+        if(window.confirm("Are you sure you want to delete this user?")){
+
         this.setState({ loader: true })
-        axios.delete('blogs/delete/' + id)
+        axios.delete('users/deleteuser/' + id)
             .then(res => {
                 window.location.reload(false)
             })
@@ -51,6 +52,8 @@ class Edit extends Component {
                     loader: false
                 })
             })
+        }
+        
     }
     handleEdit(r) {
         this.setState({
@@ -74,18 +77,16 @@ class Edit extends Component {
         })
             .then(response => {
                 if (response.data.role === 'admin') {
-                    axios.get('blogs/getall/')
+                    axios.get('users/getall/')
                     .then(res => {
-                        console.log (res)
                         this.setState({ loader: false, data: res.data })
                     })
                     .catch(err => {
-                        console.log(err)
                         this.setState({
                             loader: false,
                             open: true,
                             severity: 'error',
-                            message: 'Sorry, An error occured. Please try to reload'
+                            message: 'Sorry, An error occured. Kindly try to reload'
                         })
                     }) 
                 }
@@ -99,7 +100,6 @@ class Edit extends Component {
                 }
             })
             .catch(err => {
-                console.log(err)
                 this.setState({
                     loader: false,
                     open: true,
@@ -124,22 +124,33 @@ class Edit extends Component {
                     </Grid>
                     <Grid item xs={10} className="edit-table">
                         <div className="edit-your-blog">
-                            EDIT YOUR BLOGS
+                           REGISTERED USERS
                             </div>
                         <TableContainer className="table-container">
                             <Table aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                    <TableCell className="heading">NAME</TableCell>
+                                    <TableCell className="heading">MOBILE</TableCell>
+                                    <TableCell className="heading">USERNAME</TableCell>
+                                    <TableCell className="heading">EMAIL</TableCell>
+                                    <TableCell className="heading">ACTION</TableCell>
+                                    </TableRow>
+                                </TableHead>
                                 <TableBody>
                                     {
-                                        this.state.data.slice(0).reverse().map((row, index) =>
+                                        this.state.data.map((row, index) =>
                                             <TableRow key={index}>
-                                                <TableCell className="title-cell">{row.title}</TableCell>
-                                                <TableCell className="report-cell">{row.report}</TableCell>
+                                                <TableCell className="report-cell">{row.first_name +" " + row.surname}</TableCell>
+                                                <TableCell className="report-cell">{row.mobile}</TableCell>
+                                                <TableCell className="report-cell">{row.username}</TableCell>
+                                                <TableCell className="report-cell">{row.email}</TableCell>
                                                 <TableCell className="icon-cell">
                                                     <div className="icon-div">
-                                                        <DeleteIcon onClick={() => { this.handleRemove(row._id) }} className="icon-del" />
+                                                        <DeleteIcon onClick={() => { this.handleRemove(row._id) }} className="icon" />
                                                     </div>
                                                 </TableCell>
-                                              </TableRow>
+                                            </TableRow>
                                         )
                                     }
                                 </TableBody>
