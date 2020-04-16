@@ -3,7 +3,7 @@ backend/cert.pem
 backend/key.pem
 
 # Firebase details
-src/firebase-config.js
+# src/firebase-config.js
 
 # Logs
 logs
@@ -80,7 +80,7 @@ typings/
 .env
 .env.test
 backend/config.js
-src/firebase-config.js
+# src/firebase-config.js
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
