@@ -31,7 +31,7 @@ app.use (
   })
 ) 
 
-/* only if you're behind a reverse proxy (Heroku, Bluemix, AWS if you use an ELB, custom Nginx setup, etc)  */
+/* only if behind a reverse proxy (Heroku, Bluemix, AWS if you use an ELB, custom Nginx setup, etc)  */
 app.enable('trust proxy'); 
 
 var limiter = new RateLimit({
