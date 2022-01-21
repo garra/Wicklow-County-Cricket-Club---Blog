@@ -20,7 +20,7 @@
         "express-validator": "^6.4.0",
         "helmet": "^3.22.0",
         "jsonwebtoken": "^8.5.1",
-        "log4js": "^6.2.0",
+        "log4js": "^6.4.0",
         "mongo-sanitize": "^1.1.0",
         "mongodb": "^3.5.5",
         "mongoose": "^5.9.7",
